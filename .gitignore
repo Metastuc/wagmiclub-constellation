@@ -1,3 +1,4 @@
-contracts/test/Lock.js
-contracts/scripts/deploy.js
-contracts/contracts/Lock.sol
+smart-contracts/test/Lock.js
+smart-contracts/scripts/deploy.js
+smart-contracts/contracts/Lock.sol
+smart-contracts/contracts/Lock.sol
