@@ -107,15 +107,21 @@
         color: black;
         @include flex($j:flex-start);
         gap: 2.5rem;
-        padding-left: 18rem;
+        padding-inline: 18rem;
         height: 5.25rem;
 
+        >* {
+            flex: 1;
+        }
 
         @include bp-max($ss-mm) {
             padding: 2rem;
+            height: 3rem;
         }
 
         b {
+            text-align: center;
+
             font: {
                 family: map-get($map: $ff, $key: clash);
                 weight: map-get($map: $fw, $key: mid);
@@ -163,6 +169,7 @@
         div {
             @include flex;
             gap: .75rem;
+            // width: 100%;
         }
     }
 }
