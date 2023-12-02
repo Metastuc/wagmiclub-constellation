@@ -48,10 +48,11 @@ export const SecondaryNav = () => {
 
 						<Modal
 							isOpen={isSearchModalOpen}
-							// isOpen={true}
 							onClose={() => setIsSearchModalOpen()}
 						>
-							<SearchModal />
+							<SearchModal
+								onClose={() => setIsSearchModalOpen()}
+							/>
 						</Modal>
 					</div>
 
@@ -70,7 +71,9 @@ export const SecondaryNav = () => {
 							isOpen={isProfileModalOpen}
 							onClose={() => setIsProfileModalOpen()}
 						>
-							<ProfileModal />
+							<ProfileModal
+								onClose={() => setIsProfileModalOpen()}
+							/>
 						</Modal>
 					</div>
 				</div>

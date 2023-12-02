@@ -5,7 +5,7 @@ import { REPUTATION_LEADERBOARD } from "@/assets/data";
 import { SearchInput } from "@/components";
 import "./index.scss";
 
-const Search = () => {
+const Search = ({ onClose }: { onClose: () => void }) => {
 	const group = "searchModal";
 
 	const [searchResults, setSearchResults] = useState<any[]>([]);
@@ -35,7 +35,10 @@ const Search = () => {
 						const { image, name, title } = user;
 
 						return (
-							<li key={index}>
+							<li
+								key={index}
+								onClick={onClose}
+							>
 								<span className={`${group}__image`}>
 									<img
 										src={image}
@@ -49,7 +52,9 @@ const Search = () => {
 							</li>
 						);
 					})}
-				{searchResultsEntered && <li>no results found</li>}
+				{searchResults.length === 0 && searchResultsEntered && (
+					<li>No results found for this query</li>
+				)}
 			</>
 		);
 	}

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import "./index.scss";
 
-const Profile = () => {
+const Profile = ({ onClose }: { onClose: () => void }) => {
 	const group = "profileModal";
 
 	const links = [
@@ -29,6 +29,7 @@ const Profile = () => {
 						<li
 							key={index}
 							className={`${group}__item`}
+							onClick={onClose}
 						>
 							<Link href={href}>{name}</Link>
 						</li>

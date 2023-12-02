@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, ReactNode, useEffect, useState } from "react";
+import { FC, ReactNode } from "react";
 import { CloseMenu } from "@/assets/icons";
 import "./index.scss";
 
@@ -14,7 +14,7 @@ export const Modal: FC<props> = ({ isOpen, onClose, children }) => {
 	if (!isOpen) return null;
 
 	return (
-		<section className={`modal ${isOpen ? "active" : "nope"}`}>
+		<section className={`modal`}>
 			<div className="modal__wrapper">
 				<button
 					className="modal__close"

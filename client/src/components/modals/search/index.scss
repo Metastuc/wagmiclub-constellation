@@ -48,6 +48,12 @@
             padding-inline: 1.25rem;
             margin-block: .5rem;
             width: 100%;
+
+            font: {
+                family: map-get($map: $ff, $key: clash);
+                weight: map-get($map: $fw, $key: reg);
+                size: .75rem;
+            }
         }
     }
 
