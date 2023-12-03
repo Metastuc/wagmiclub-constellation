@@ -158,19 +158,61 @@ app.post("/uploadImage", async (req, res) => {
   });
 });
 
-app.get("/getNFTAmount", async (req, res) => {
-    // get the userAddress, chain and contractAddress from the requset/query
-    const userAddress = req.query.userAddress; // user address
-    const nftName = req.query.nftName; // nft name
-    const chain = req.query.chain; // chain to check on
+app.get("/getEligible/:contractAddress", async (req, res) => {
+    // get the chain and contractAddress from the requset/query
+    const contractAddress = req.params.contractAddress
+    const tokenId = req.query.tokenId;
+    //get the needed params - useraddress, chain, nftname/contract address, requirement
+    const medalRef = await db.collection('medals').doc(contractAddress).collection('tokenIds').doc(tokenId).get();
+    const medalDoc = medalRef.data();
+    const name = medalDoc.contractAddress;
+    const chain = medalDoc.chain;
+    const type = medalDoc.type;
+    const requirement = medalDoc.requirement;
+    let indecies = [];
+    let questers = [];
 
     try {
-      // Get and return the crypto data
-      const data = await getCollectionAmount(userAddress, chain, nftName);
-      const jsonResponse = { RESULT: data };
-      res.json(jsonResponse);
-      res.status(200);
-      res.json(jsonResponse);
+      // get all questers
+      const questersRef = db.collection('medals').doc(contractAddress).collection('tokenIds').doc(tokenId).collection('questers');
+      const questerssnapshot = await questersRef.get();
+      questerssnapshot.forEach(doc => {
+        const userObj = {address: doc.data().address, index: doc.data().index, id: doc.id}
+        if (doc.data().claimed == false) {
+          questers.push(userObj);
+        }
+      });
+      // loop through all questers and check if the are eligible
+      for (let i = 0; i < questers.length; i++) {
+        const address = questers[i].address;
+        var userAmount;
+        switch (type) {
+          case 0:
+            userAmount = await getCollectionAmount(address, chain, name);
+            if (userAmount >= requirement) {
+              indecies.push(questers[i].index)
+            }
+            break;
+            case 0:
+              userAmount = await getDonationAmount(address, chain, name);
+              if (userAmount >= requirement) {
+                indecies.push(questers[i].index)
+              }
+              break;
+        
+          default:
+            break;
+        }
+        
+      }
+      const index = Math.min(...indecies);
+      const foundObject = questers.find(item => item.index === index);
+      const id = foundObject.id;
+      const qref = questersRef.doc(id);
+      await qref.update({claimed: true});
+      const response = { index: index };
+      res.status(200).json(response)
+      // res.status(200).json({ 1: name, 2: chain, 3: type, 4: requirement, 5: indecies, 6: questers, 7: index });
     } catch (error) {
       // Handle errors
       console.error(error);
@@ -201,7 +243,7 @@ const getCollectionAmount = async (address, _chain, nftName) => {
   try {
   const response = await Moralis.EvmApi.nft.getWalletNFTs({
       address,
-      chain,
+      chain
   });
 
   const amount = sumAmountByName(response.raw.result, nftName);
@@ -365,7 +407,7 @@ app.post("/createProfile", async (req, res) => {
     imageURL: req.body.imageURL,
     address: req.body.address,
     accountType: req.body.accountType,
-    UPAddress: '0x'
+    // UPAddress: '0x'
   }
 
   const wagmiFollow = {
@@ -378,26 +420,26 @@ app.post("/createProfile", async (req, res) => {
     await users.doc(docId).set(profileData);
     await users.doc(docId).collection("followers").add(wagmiFollow);
     await users.doc(docId).collection("following").add(wagmiFollow);
-    const lspFactory = new LSPFactory(provider, {
-      deployKey: privateKey,
-      chainId: 4201,
-    });
+    // const lspFactory = new LSPFactory(provider, {
+    //   deployKey: privateKey,
+    //   chainId: 4201,
+    // });
 
-    const deployedContracts = await lspFactory.UniversalProfile.deploy({
-      controllerAddresses: [ req.body.address ], // root address (address attached to profile)
-      lsp3Profile: {
-        name: req.body.username,
-        description: req.body.bio,
-        tags: ['wagmi-profile'],
-        links: [{
-          title: 'My Website',
-          url: 'www.my-website.com'
-        }]
-      }
-    });
+    // const deployedContracts = await lspFactory.UniversalProfile.deploy({
+    //   controllerAddresses: [ req.body.address ], // root address (address attached to profile)
+    //   lsp3Profile: {
+    //     name: req.body.username,
+    //     description: req.body.bio,
+    //     tags: ['wagmi-profile'],
+    //     links: [{
+    //       title: 'My Website',
+    //       url: 'www.my-website.com'
+    //     }]
+    //   }
+    // });
 
-    const UPAddress = deployedContracts.LSP0ERC725Account.address;
-    await users.doc(docId).update({ UPAddress: UPAddress });
+    // const UPAddress = deployedContracts.LSP0ERC725Account.address;
+    // await users.doc(docId).update({ UPAddress: UPAddress });
 
     console.log('success');
     const jsonResponse = { status: "successful" };
@@ -460,7 +502,7 @@ app.post("/createBadge/:orgAddress", async (req, res) => {
       const contractAddress = orgBadgeData.contractAddress;
       const id = orgBadgeData.idCount;
       const newId = id + 1;
-      const tokenRef = orgBadgeRef.collection('tokenIds').doc(idCount);
+      const tokenRef = orgBadgeRef.collection('tokenIds').doc(newId);
       await tokenRef.set(req.body);
       await orgBadgeRef.update({ idCount: newId })
       res.status(200).json({ contractAddress: contractAddress, id: id })
