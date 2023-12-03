@@ -1,0 +1,82 @@
+@use "../../styles/"as *;
+
+.menu {
+    @include bp-min($ss-mm) {
+        display: none;
+    }
+
+    @include flex;
+
+    &-wrapper {
+        button {
+            background: transparent;
+        }
+
+        .active-menu-background {
+            z-index: 5;
+            height: 100vh;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            margin: 0 auto;
+            @include flex;
+        }
+    }
+
+    &-content {
+        border: .0625rem solid darken($color: #fff, $amount: 85);
+        border-radius: 1.25rem;
+        position: absolute;
+        top: 1.125rem;
+        width: 85%;
+        padding: .75rem 1rem 1rem 1.5rem;
+        background-color: var(--black);
+
+        .content-wrapper {
+            .close-menu {
+                width: 100%;
+                @include flex($j:flex-end);
+                margin-bottom: 1rem;
+            }
+
+            .navigation {
+                @include flex($d:column, $a:flex-start);
+                gap: .875rem;
+
+                li {
+                    font-family: map-get($map: $ff, $key: clash);
+                    font-weight: map-get($map: $fw, $key: mid);
+                    font-size: .875rem;
+
+                    a {
+                        &::first-letter {
+                            text-transform: uppercase;
+                        }
+                    }
+                }
+            }
+
+            .search {
+                width: 100%;
+                margin-top: 1.25rem;
+                border-radius: .625rem;
+                background-color: var(--white);
+                @include flex($j:space-between);
+                padding: .25rem;
+                overflow: hidden;
+
+                input {
+                    font-family: map-get($map: $ff, $key: clash);
+                    font-size: 1rem;
+                    padding-inline: .5rem;
+                    font-weight: map-get($map: $fw, $key: mid);
+                }
+
+                span {
+                    @include flex;
+                }
+            }
+        }
+    }
+}
