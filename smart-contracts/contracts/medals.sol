@@ -12,9 +12,11 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
     using Counters for Counters.Counter; // OpenZepplin Counter
     Counters.Counter private _medalCount; // Counter for badges minted
 
-    uint256 public deadLine;
+    uint256 public lastBlockNumber;
     bytes public request;
-    // hardcode these
+    uint256 public deadline;
+    // hardcode these values
+    uint256 blockInterval;
     uint64 public subscriptionId;
     uint32 public gasLimit;
     bytes32 public donID;
@@ -43,7 +45,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
         // assigning tokenId
         tokenId = _medalCount.current();
         _medalCount.increment();
-        deadLine = _deadline;
+        deadline = _deadline;
         request = _request;
     }
 
@@ -65,7 +67,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
         override
         returns (bool upkeepNeeded, bytes memory performData)
     {
-        upkeepNeeded = block.number - deadLine > 0; // Check if the current block number has incremented since the last recorded block number
+        upkeepNeeded = block.number - lastBlockNumber > blockInterval; // Check if the current block number has incremented since the last recorded block number
         // We don't use the checkData in this example. The checkData is defined when the Upkeep was registered.
         // construct request and put it as perform data
         return (upkeepNeeded, ""); // Return an empty bytes value for performData
@@ -75,8 +77,8 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
      * @notice Send a pre-encoded CBOR request if the current block number has incremented since the last recorded block number.
      */
     function performUpkeep(bytes calldata /* performData */) external override {
-        if (block.number - deadLine > 0) {
-            deadLine = block.number;
+        if (block.number - lastBlockNumber > blockInterval) {
+            lastBlockNumber = block.number;
             s_upkeepCounter = s_upkeepCounter + 1;
             try
                 i_router.sendRequest(
@@ -139,7 +141,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
         }
         address user = questers[_medalCount.current()][id];
         // mint the tokenId
-        _mint(user, _medalCount.current(), 1, "");
+        _mint(user, tokenId, 1, "");
         s_lastError = err;
         s_responseCounter = s_responseCounter + 1;
         emit Response(requestId, s_lastResponse, s_lastError);
