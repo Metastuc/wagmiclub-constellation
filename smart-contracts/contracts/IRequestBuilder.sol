@@ -2,5 +2,5 @@
 pragma solidity ^0.8.0;
 
 interface IRequestBuilder {
-function getRequest(string[] calldata args) external returns(bytes memory);
+function getRequest(string[2] calldata args) external returns(bytes memory);
 }

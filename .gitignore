@@ -4,3 +4,4 @@ smart-contracts/contracts/Lock.sol
 smart-contracts/contracts/Lock.sol
 server/.env
 server/node_modules
+smart-contracts/contracts/functions.sol

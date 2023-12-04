@@ -7,6 +7,8 @@ import {ConfirmedOwner} from "@chainlink/contracts/src/v0.8/shared/access/Confir
 import {FunctionsRequest} from "@chainlink/contracts/src/v0.8/functions/dev/v1_0_0/libraries/FunctionsRequest.sol";
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import {IRequestBuilder} from "./IRequestBuilder.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, ConfirmedOwner {
     using Counters for Counters.Counter; // OpenZepplin Counter
@@ -15,12 +17,13 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
     uint256 public lastBlockNumber;
     bytes public request;
     uint256 public deadline;
-    // hardcode these values
+    IRequestBuilder requestBuilder;
+    // hardcode these values on deployment
     uint256 blockInterval;
     uint64 public subscriptionId;
     uint32 public gasLimit;
     bytes32 public donID;
-    //
+
     bytes32 public s_lastRequestId;
     bytes public s_lastResponse;
     bytes public s_lastError;
@@ -38,15 +41,38 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
     event RequestRevertedWithErrorMsg(string reason);
     event RequestRevertedWithoutErrorMsg(bytes data);
 
-    constructor(address router, string memory uri_) ERC1155(uri_) FunctionsClient(router) ConfirmedOwner(msg.sender) {}
+    constructor(address router, string memory uri_, address builderAddress) ERC1155(uri_) FunctionsClient(router) ConfirmedOwner(msg.sender) {
+        blockInterval = 5;
+        subscriptionId = 1024;
+        gasLimit = 300000;
+        donID = 0x66756e2d706f6c79676f6e2d6d756d6261692d31000000000000000000000000;
+        requestBuilder = IRequestBuilder(builderAddress);
+    }
+
+    function addressToString(address _address) public pure returns (string memory) {
+        bytes32 value = bytes32(uint256(uint160(_address))); // Convert address to bytes32
+        bytes memory alphabet = "0123456789abcdef"; // Define hexadecimal alphabet
+        bytes memory str = new bytes(42); // Allocate memory for the string (address is 20 bytes, each byte represented by 2 hex characters, plus '0x' prefix)
+        str[0] = '0';
+        str[1] = 'x';
+        for (uint i = 0; i < 20; i++) {
+            str[2 + i * 2] = alphabet[uint(uint8(value[i + 12] >> 4))];
+            str[3 + i * 2] = alphabet[uint(uint8(value[i + 12] & 0x0f))];
+        }
+        return string(str);
+    }
 
     // function to create medal
-    function createMedal(uint256 _deadline, bytes memory _request) public onlyOwner {
+    function createMedal(uint256 _deadline) public onlyOwner {
         // assigning tokenId
         tokenId = _medalCount.current();
-        _medalCount.increment();
         deadline = _deadline;
-        request = _request;
+        address contractAddress = address(this);
+        string memory addressString = addressToString(contractAddress);
+        string memory _tokenId = Strings.toString(tokenId);
+        string[2] memory args = [addressString, _tokenId];
+        request = requestBuilder.getRequest(args);
+        _medalCount.increment();
     }
 
     function registerInterest(uint256 _tokenId) external {

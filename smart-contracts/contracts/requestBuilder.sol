@@ -66,7 +66,7 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
      */
     function sendRequest(
         uint64 subscriptionId,
-        string[] calldata args
+        string[2] memory args
     ) external onlyOwner returns (bytes32 requestId) {
         FunctionsRequest.Request memory req;
         req.initializeRequestForInlineJavaScript(source); // Initialize the request with JS code
@@ -83,7 +83,7 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
         return s_lastRequestId;
     }
 
-    function getRequest(string[] calldata args) external returns(bytes memory) {
+    function getRequest(string[2] calldata args) external returns(bytes memory) {
         FunctionsRequest.Request memory req;
         req.initializeRequestForInlineJavaScript(source); // Initialize the request with JS code
         if (args.length > 0) req.setArgs(args); // Set the arguments for the request
