@@ -24,7 +24,7 @@ export const SelectField: FC<props> = ({
 	id,
 	label,
 	group,
-	options,
+	options = [],
 	onChange,
 	setFieldValue,
 	error,

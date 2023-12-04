@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { useBodyOverflow, useTabSwitcher, useScrollReset } from "@/hooks";
-import { CreateTabs, SecondaryNav } from "@/components";
+import { CreateTabs } from "@/components";
 import { Badge, Medal } from "@/views";
 import "./page.scss";
 

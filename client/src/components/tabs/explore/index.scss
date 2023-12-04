@@ -38,7 +38,7 @@
             /* Set font size using a variable */
             font-family: map-get($map: $ff, $key: clash);
             /* Set font family using a variable */
-            font-weight: var(--fw-mid);
+            font-weight: map-get($map: $fw, $key: mid);
             /* Set font weight using a variable */
         }
     }

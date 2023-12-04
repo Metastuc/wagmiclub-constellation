@@ -1,6 +1,10 @@
 @use "../../styles/"as *;
 
 .profile {
+    @include bp-min($ss-mm) {
+        display: none;
+    }
+
     padding-inline: 2.5rem;
 
     &__wrapper {

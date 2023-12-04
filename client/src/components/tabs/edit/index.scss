@@ -64,9 +64,9 @@
         font: {
             size: .75rem;
             /** Font size for the title text. */
-            family: var(--ff-clash);
+            family: map-get($map: $ff, $key: clash);
             /** Font family for the title text. */
-            weight: var(--fw-mid);
+            weight: map-get($map: $fw, $key: mid);
             /** Font weight for the title text. */
         }
     }
