@@ -1,5 +1,5 @@
 import { Verified } from "@/assets/icons";
-import Profile from "@/app/[profile]/page";
+import Profile from "@/app/profile/page";
 import "./index.scss";
 
 export const PoweredBy = ({ group }: { group: string }) => {
