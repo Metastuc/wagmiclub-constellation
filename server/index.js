@@ -35,56 +35,7 @@ const db = getFirestore();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// LUKSO provider
-const provider = 'https://rpc.testnet.lukso.network';
-
-// ethers
-const { Wallet, ethers } = require("ethers");
-
 // initializing the LSP8 contract ABI
-const LSP8ABI = [
-  {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "to",
-          "type": "address"
-        },
-        {
-          "internalType": "bytes32",
-          "name": "tokenId",
-          "type": "bytes32"
-        },
-        {
-          "internalType": "bool",
-          "name": "force",
-          "type": "bool"
-        },
-        {
-          "internalType": "bytes",
-          "name": "data",
-          "type": "bytes"
-        }
-      ],
-      "name": "mint",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "newOwner",
-          "type": "address"
-        }
-      ],
-      "name": "transferOwnership",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    }
-]
 
 app.use(express.json());
 
@@ -451,7 +402,6 @@ app.post("/createProfile", async (req, res) => {
 });
 
 app.post("/createBadge/:orgAddress", async (req, res) => {
-  // get address
   const orgAddress = req.params.orgAddress;
 
   try {
@@ -462,90 +412,43 @@ app.post("/createBadge/:orgAddress", async (req, res) => {
     const userSnapshot = await users.where('address', '==', req.body.receiver).get();
     const userId = userSnapshot.docs[0].id;
 
-    // does not exist deploy and return
-    // exist return 
+    // construct badge object
+    const badgeBody = {
+      Description: req.body.Description,
+      Title: req.body.Title,
+      from: req.body.from,
+      imageURL: req.body.imageURL,
+      info: req.body.info,
+      rating: req.body.rating,
+      receiver: req.body.receiver,
+      to: req.body.to,
+      validator: req.body.validator
+    }
+
     if (!orgBadgeDoc.exists) {
-      // deploy 
-      const lspFactory = new LSPFactory(provider, {
-        deployKey: privateKey,
-        chainId: 4201,
-      });
-      const deployedContracts = await lspFactory.LSP8IdentifiableDigitalAsset.deploy({
-        name: "WAGMI BADGE",
-        symbol: "WBG",
-        controllerAddress: orgAddress,
-        tokenIdType: 0,
-      //   digitalAssetMetadata: metadataEndpointURL
-      });
-      const contractAddress = deployedContracts.LSP8IdentifiableDigitalAsset.address;
-
-      // change owner
-      const wallet = new Wallet(privateKey);
-
-      const _provider = new ethers.JsonRpcProvider(provider);
-      const signer = wallet.connect(_provider);
-      const contract = new ethers.Contract(contractAddress, LSP8ABI, signer);
-      const TX = await contract.transferOwnership(orgAddress);
-      const receipt = await TX.wait();
-      console.log(receipt); 
-
       const idCount = 0;
-      const data = { contractAddress: contractAddress, idCount: idCount }
+      const data = { contractAddress: req.body.contractAddress, idCount: idCount }
       await orgBadgeRef.set(data);
       const tokenRef = orgBadgeRef.collection('tokenIds').doc(idCount);
-      await tokenRef.set(req.body);
-      await db.collection('users').doc(userId).collection('badges').add(req.body);
-      res.status(200).json({ contractAddress: contractAddress, id: idCount })
+      await tokenRef.set(badgeBody);
+      await db.collection('users').doc(userId).collection('badges').add(badgeBody);
+      res.status(200).json({ message: "successful" })
       await orgBadgeRef.update({ idCount: 1 })
     } else {
       const orgBadgeData = orgBadgeDoc.data();
-      const contractAddress = orgBadgeData.contractAddress;
       const id = orgBadgeData.idCount;
       const newId = id + 1;
       const tokenRef = orgBadgeRef.collection('tokenIds').doc(newId);
-      await tokenRef.set(req.body);
+      await tokenRef.set(badgeBody);
+      await db.collection('users').doc(userId).collection('badges').add(badgeBody);
       await orgBadgeRef.update({ idCount: newId })
-      res.status(200).json({ contractAddress: contractAddress, id: id })
+      res.status(200).json({ message: "successful" })
   }
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: error })
   }
 })
-
-app.get("/getUserProfileUsername/:username", async (req, res) => { // change to add
-  const username = req.params.username;
-
-  const userSnapshot = await db.collection('users').doc(username).get();
-
-  try {
-    if (!userSnapshot.exists) {
-      const Response = { response: "User does not exist" }
-      res.status(200);
-      res.json(Response);
-    } else {
-      const userDoc = userSnapshot.data();
-      const userResponse = {
-        name: userDoc.displayname,
-        username: userDoc.username,
-        bio: userDoc.bio,
-        profession: userDoc.profession,
-        imageURL: userDoc.imageURL
-      }
-      // add number of following and followers
-      
-      res.status(200);
-      res.json(userResponse);
-    }
-  } catch (error) {
-    res.status(500);
-    res.json({ error: error.message });
-  }
-
-  // add extended params to returned value
-
-})
-
 
 app.get("/getUserProfileAddress/:address", async (req, res) => { // change to add
   const address = req.params.address;  
@@ -632,34 +535,22 @@ app.get("/checkUser/:address", async (req, res) => {
   }
 })
 
-app.get("/getUPProfile/:username", async (req, res) => {
-  const username = req.params.username;
-
-  const userSnapshot = await db.collection('users').doc(username).get();
-
+app.get("/checkOrgAddress/:orgAddress", async (req, res) => {
+  const address = req.params.orgAddress;
   try {
-    if (!userSnapshot.exists) {
-      const Response = { response: "User does not exist" }
-      res.status(200);
-      res.json(Response);
+    const badgeRef = db.collection('Badges');
+    const badgeSnapshot = await badgeRef.doc(address).get();
+    
+    if (userSnapshot.empty) {
+      res.status(200).json({ exists: false, address: '0x'})
     } else {
-      const userDoc = userSnapshot.data();
-      const userResponse = {
-        name: userDoc.displayname,
-        username: userDoc.username,
-        bio: userDoc.bio,
-        profession: userDoc.profession,
-        imageURL: userDoc.imageURL
-      }
-      // recontrsuct in up profile format
-      res.status(200);
-      res.json(userResponse);
+      const address = badgeSnapshot.data().contractAddress;
+      res.status(200).json({ exists: true, address: address})
     }
   } catch (error) {
-    res.status(500);
-    res.json({ error: error.message });
+    console.log(error);
+    res.status(500).json({ message: error.message })
   }
-
 })
 
 app.put("/edit-profile/:username", async (req, res) => {

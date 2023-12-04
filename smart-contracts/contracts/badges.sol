@@ -12,8 +12,7 @@ contract Badge is ERC721 {
     constructor(string memory _name, string memory _symbol) ERC721(_name, _symbol) {}
 
     // mint
-    function mint(address to, string memory uri) public {
-        URI[_badgeCount.current()] = uri;
+    function mint(address to) public {
         _mint(to, _badgeCount.current());
         _badgeCount.increment();
     }
@@ -21,6 +20,7 @@ contract Badge is ERC721 {
     // get TokenURI
     function tokenURI(uint256 _tokenId) public view virtual override returns (string memory) {
         return(URI[_tokenId]);
+        // return base uri/contractaddress/tokenId
     }
 
     // cancel approve, transfer, transferFrom (make it soul bound)
