@@ -1,42 +1,29 @@
 import { ethers } from 'ethers';
 
-const providerURL = "https://rpc.testnet.lukso.network";
-const config = {
-	ipfsGateway: "https://api.universalprofile.cloud/ipfs",
-	gas: 20_000_000,
-};
-
-const baseAPIURL = "https://wagmi-backend.up.railway.app"; // to be updated once deployed
-
 var provider;
 var signer;
 
+const baseAPIURL = "https://wagmi-backend.up.railway.app/";
+
 export const connectWallet = async () => {
-	// provider = new ethers.BrowserProvider(window.ethereum);
-	try {
-		if (window.lukso) {
-			// connecting to UP extension instead of metamask
-			provider = new ethers.BrowserProvider(window.lukso);
-			await provider.send("eth_requestAccounts", []);
-			signer = await provider.getSigner();
-		} else if (window.ethereum) {
-			// in case of no UP extension use metamask
+	try { 
+		if (window.ethereum) {
 			provider = new ethers.BrowserProvider(window.ethereum);
 			const currentNetwork = await provider.getNetwork();
 			const _currentNetworkId = currentNetwork.chainId;
 			const currentNetworkId = Number(_currentNetworkId);
-			if (currentNetworkId === 4201) {
+			if (currentNetworkId === 0x13881) {
 				// checking if the network is available on the wallet
 				await provider.send("eth_requestAccounts", []);
 				signer = await provider.getSigner();
 			} else {
-				const switchLuksoTestnet = {
-					chainId: "4201",
+				const switchMumbai = {
+					chainId: "0x13881",
 				};
 				try {
 					await ethereum.request({
 						method: "wallet_switchEthereumChain",
-						params: [{ chainId: "4201" }],
+						params: [{ chainId: "0x13881" }],
 					});
 					await provider.send("eth_requestAccounts", []);
 					signer = await provider.getSigner();
@@ -47,17 +34,17 @@ export const connectWallet = async () => {
 								method: "wallet_addEthereumChain",
 								params: [
 									{
-										chainId: "4201",
-										chainName: "LUKSO testnet",
+										chainId: "0x13881",
+										chainName: "Mumbai testnet",
 										rpcUrls: [
-											"https://rpc.testnet.lukso.network",
+											"https://rpc-mumbai.maticvigil.com/",
 										],
 									},
 								],
 							});
 							await ethereum.request({
 								method: "wallet_switchEthereumChain",
-								params: [{ chainId: "4201" }],
+								params: [{ chainId: "0x13881" }],
 							});
 							await provider.send("eth_requestAccounts", []);
 							signer = await provider.getSigner();
@@ -70,7 +57,7 @@ export const connectWallet = async () => {
 				}
 				await window.ethereum.request({
 					method: "wallet_switchEthereumChain",
-					params: [{ chainId: luksoTestnet.chainId }],
+					params: [{ chainId: '0x13881' }],
 				});
 			}
 		} else {
@@ -91,7 +78,7 @@ export const logIn = async () => {
 	await connectWallet();
 	const address = await getUserAddress();
 	try {
-		const response = await fetch(`${baseAPIURL}/checkUser/${address}`);
+		const response = await fetch(`${baseAPIURL}checkUser/${address}`);
 
 		if (!response.ok) {
 		  throw new Error('Network response was not ok');
@@ -101,8 +88,10 @@ export const logIn = async () => {
 		const exists = res.exists;
 
 		if (exists == true) {
+			console.log('true');
 			return true;
 		} else {
+			console.log('false');
 			return false;
 		}
 	} catch (error) {

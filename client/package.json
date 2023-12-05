@@ -12,14 +12,11 @@
     "cover 99.5%"
   ],
   "dependencies": {
-    "@erc725/erc725.js": "^0.21.2",
-    "@lukso/lsp-factory.js": "^3.2.1",
     "autoprefixer": "^10.4.16",
     "ethers": "^6.8.1",
     "formik": "^2.4.5",
     "gsap": "^3.12.3",
     "next": "14.0.3",
-    "node-fetch": "^3.3.2",
     "postcss": "^8.4.31",
     "react": "^18",
     "react-datepicker": "^4.23.0",

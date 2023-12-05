@@ -7,11 +7,19 @@ import { DESKTOP_NAV_LINKS } from "@/assets/data";
 import { useToggle } from "@/hooks";
 import "./index.scss";
 
-import { connectWallet } from "@/utils/app.mjs";
+import { logIn } from "@/utils/app.mjs";
+import { useRouter } from "next/navigation";
+
 
 export const Menu = () => {
 	const { status: menuActive, toggleStatus } = useToggle();
+	const router = useRouter();
 
+	// Define the function to be triggered for the login action
+	const handleLogin = async (id: number) => {
+		// Execute login logic
+
+  } ;
 	useEffect(() => {
 		// Toggle background vertical scroll when menu is active
 		const scroll = menuActive ? "hidden" : "visible";
@@ -24,7 +32,6 @@ export const Menu = () => {
 	async function handleMenuItem() {
 		if (menuActive) {
 			toggleStatus();
-			await connectWallet();
 		}
 	}
 
@@ -59,7 +66,20 @@ export const Menu = () => {
 										return (
 											<li
 												key={id}
-												onClick={handleMenuItem}
+												onClick={async () => {
+													try {
+														if (id === 3) {
+															const loggedIn = await logIn();
+															if (loggedIn) {
+																router.push('/profile');
+																} else if(!loggedIn) {
+																router.push('/profile/edit');
+															}
+														}
+													} catch (error) {
+														
+													}
+												}}
 											>
 												<Link href={to}>{title}</Link>
 											</li>
