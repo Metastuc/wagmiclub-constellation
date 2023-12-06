@@ -115,8 +115,7 @@
         }
 
         @include bp-max($ss-mm) {
-            gap: 0;
-            padding: 0 0 0 1rem;
+            padding: 2rem;
             height: 3rem;
         }
 
@@ -169,8 +168,8 @@
 
         div {
             @include flex;
-            gap: .5rem;
-            flex: 2;
+            gap: .75rem;
+            // width: 100%;
         }
     }
 }

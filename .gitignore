@@ -6,3 +6,4 @@ server/.env
 server/node_modules
 smart-contracts/contracts/functions.sol
 smart-contracts/hardhat.config.js
+smart-contracts/scripts/medals.js

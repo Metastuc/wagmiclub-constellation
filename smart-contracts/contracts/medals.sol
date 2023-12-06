@@ -14,6 +14,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
     using Counters for Counters.Counter; // OpenZepplin Counter
     Counters.Counter private _medalCount; // Counter for badges minted
 
+    string public returnedString;
     uint256 public lastBlockNumber;
     bytes public request;
     uint256 public deadline;
@@ -43,7 +44,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
 
     constructor(address router, string memory uri_, address builderAddress) ERC1155(uri_) FunctionsClient(router) ConfirmedOwner(msg.sender) {
         blockInterval = 5;
-        subscriptionId = 1024;
+        subscriptionId = 1069;
         gasLimit = 300000;
         donID = 0x66756e2d706f6c79676f6e2d6d756d6261692d31000000000000000000000000;
         requestBuilder = IRequestBuilder(builderAddress);
@@ -63,7 +64,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
     }
 
     // function to create medal
-    function createMedal(uint256 _deadline) public onlyOwner {
+    function createMedal(uint256 _deadline) public {
         // assigning tokenId
         tokenId = _medalCount.current();
         deadline = _deadline;
@@ -77,6 +78,18 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
 
     function registerInterest(uint256 _tokenId) external {
         questers[_tokenId].push(msg.sender);
+    }
+
+    function stringToUint(string memory _input) public pure returns (uint256) {
+        bytes memory b = bytes(_input);
+        uint256 result = 0;
+        for (uint256 i = 0; i < b.length; i++) {
+            uint256 val = uint256(uint8(b[i]));
+            if (val >= 48 && val <= 57) {
+                result = result * 10 + (val - 48);
+            }
+        }
+        return result;
     }
 
    /**
@@ -161,15 +174,15 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
             revert UnexpectedRequestID(requestId);
         }
         s_lastResponse = response;
-        uint256 id;
-        assembly {
-            id := mload(add(s_lastResponse.slot, 0x20))
-        }
-        address user = questers[_medalCount.current()][id];
+
+        returnedString = string(response);
+        uint256 id = stringToUint(returnedString);
+        address user = questers[tokenId][id];
         // mint the tokenId
-        _mint(user, tokenId, 1, "");
+        _mint(user, tokenId, 1, response);
         s_lastError = err;
         s_responseCounter = s_responseCounter + 1;
         emit Response(requestId, s_lastResponse, s_lastError);
     }
+
 }

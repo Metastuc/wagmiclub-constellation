@@ -4,7 +4,7 @@ async function main() {
 
   const mumbaiRouter = "0x6E2dc0F9DB014aE19888F539E59285D2Ea04244C";
   const uri = "uri";
-  const builderAddress = "0x0aBcfc90f14B16192C172687b6d217b43fa971ce";
+  const builderAddress = "0x4889c1DE5173b5634C9443847eE8F4CA5315aDa9";
   const medals = await hre.ethers.deployContract("Medals", [mumbaiRouter, uri, builderAddress]);
 
   await medals.waitForDeployment();
@@ -19,4 +19,4 @@ main().catch((error) => {
   process.exitCode = 1;
 });
 
-// address = 0x43ca7Be2AD05a8c38b5f530291Bc758a678371b8
+// address = 0x5Da8DFd3c344Dd960A8956973591d21cC2209e33

@@ -37,13 +37,13 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
         "const contractAddress = args[0];"
         "const tokenId = args[1];"
         "const apiResponse = await Functions.makeHttpRequest({"
-        "url: `https://wagmi-backend.up.railway.app/getEligible/${contractAddress}?tokenId=${tokenId}`"
+        "url: `https://wagmi-backend.up.railway.app/getEligible/${tokenId}`"
         "});"
         "if (apiResponse.error) {"
         "throw Error('Request failed');"
         "}"
         "const { data } = apiResponse;"
-        "return Functions.encodeUint256(data.index);";
+        "return Functions.encodeString(data.index);";
 
     //Callback gas limit
     uint32 gasLimit = 300000;
