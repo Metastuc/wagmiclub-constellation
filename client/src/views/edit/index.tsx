@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useFormik } from "formik";
 import { Details, Socials } from "@/components";
 import { EDIT_SCHEMA } from "@/assets/data";
+import { signUp } from "@/utils/app.mjs";
+
 import "./index.scss";
 
 interface FormValues {
@@ -43,9 +45,14 @@ export const FormField = ({ activeTab }: { activeTab: string }) => {
 	} = useFormik({
 		validationSchema: EDIT_SCHEMA, // Form validation schema
 		initialValues, // Initial form values
-		onSubmit: (values) => {
+		onSubmit: async(values) => {
 			console.log("Formik data:", values);
 			// Handle form submission logic here (e.g., API call)
+			try {
+				await signUp(values);
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	});
 

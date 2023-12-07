@@ -104,26 +104,11 @@ export const logIn = async () => {
 export const signUp = async (profileRequestBody) => {
 	try {
 		await connectWallet();
-
-		const formData = new FormData();
-		formData.append('image', file);
-	
-		const uploadResponse = await fetch(`${baseAPIURL}/uploadImage`, {
-		  method: 'POST',
-		  body: formData,
-		});
-	
-		if (!uploadResponse.ok) {
-		  throw new Error('Network response was not ok');
-		}
-	
-		const data = await uploadResponse.json();
-		const imageURL = data.url;
-
+		const address = await getUserAddress();
+		profileRequestBody['address'] = address;
 		// call create function to API with details
 		const endPoint = "/createProfile";
 		const createProfileEndpoint = baseAPIURL + endPoint;
-
 		const response = await fetch(createProfileEndpoint, {
 			method: "POST",
 			headers: {
@@ -137,7 +122,7 @@ export const signUp = async (profileRequestBody) => {
 			throw new Error("Network error");
 		}
 
-		return { success: true }
+		console.log("created");
 
 	} catch (error) {
 		console.log(error);
