@@ -2,7 +2,6 @@ const { ethers, Wallet } = require('ethers');
 require('dotenv').config();
 
 // const privateKey = process.env.PRIVATE_KEY;
-const privateKey = "4222eab5541962856ad0ae505df6dd1414936e77790a7a64ed3670ae076ea76a";
 const wallet = new Wallet(privateKey);
 const provider = new ethers.JsonRpcProvider("https://polygon-mumbai.g.alchemy.com/v2/x66ngpknfweaoFrjMzdrIio3F3-YqUDV");
 const signer = wallet.connect(provider);

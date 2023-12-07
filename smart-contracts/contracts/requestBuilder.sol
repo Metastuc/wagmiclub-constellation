@@ -43,7 +43,9 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
         "throw Error('Request failed');"
         "}"
         "const { data } = apiResponse;"
-        "return Functions.encodeString(data.index);";
+        // "return Functions.encodeString(data.index);"
+        // returns bytes then should convert the bytes to uint256
+        "return Functions.encodeBytes(Buffer.from(response, 'utf-8'));";
 
     //Callback gas limit
     uint32 gasLimit = 300000;
