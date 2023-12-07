@@ -2,10 +2,9 @@ const hre = require("hardhat");
 
 async function main() {
 
-  const name = "Wagmi Club";
-  const symbol = "WGC";
+  const uri = "Wagmi Club";
 
-  const badges = await hre.ethers.deployContract("requestBuilder", [name, symbol]);
+  const badges = await hre.ethers.deployContract("Badge", [uri]);
 
   await badges.waitForDeployment();
 
@@ -18,3 +17,5 @@ main().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
+
+// deployed to 0xCfD0BC91213D1351514f0436E2FEd65850DFBc59
