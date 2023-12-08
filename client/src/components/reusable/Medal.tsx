@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { ReputationMedal, ReputationView as ButtonIcon } from "@/assets/icons";
 
 interface props {
@@ -12,15 +12,6 @@ interface props {
 }
 
 export const Medal: FC<props> = ({ name, title, image, medals, group }) => {
-	const [randomMedals, setRandomMedals] = useState<number | null>(null);
-
-	useEffect(() => {
-		// Generate a random number only on the client side
-		setRandomMedals(
-			medals + Math.floor(Math.random() * (50 - 20 + 1)) + 20,
-		);
-	}, [medals]);
-
 	return (
 		<section className={`${group}__wrapper`}>
 			<div className={`${group}__image`}>
@@ -39,7 +30,7 @@ export const Medal: FC<props> = ({ name, title, image, medals, group }) => {
 
 			<div className={`${group}__footer`}>
 				<div className={`${group}__medal`}>
-					<span>{randomMedals}</span>
+					<span>{medals}</span>
 					<span>
 						<ReputationMedal />
 					</span>

@@ -2,7 +2,11 @@
 
 import { ReactNode } from "react";
 import { useBodyOverflow, useScrollReset, useTabSwitcher } from "@/hooks";
-import { ExploreTabs, MarketPlace, OnChain } from "@/components";
+import {
+	ExploreTabs,
+	MarketPlace as Board,
+	OnChain as Medals,
+} from "@/components";
 import "./page.scss";
 
 interface TabComponents {
@@ -21,13 +25,12 @@ const Explore = () => {
 	useBodyOverflow();
 
 	// Get active tab, handleTabClick function, and tabIsActive function from custom hook
-	const { activeTab, handleTabClick, tabIsActive } =
-		useTabSwitcher("marketplace");
+	const { activeTab, handleTabClick, tabIsActive } = useTabSwitcher("medals");
 
 	// Object mapping tab names to corresponding components
 	const tabComponents: TabComponents = {
-		marketplace: <MarketPlace group="marketplace" />,
-		onchainMedals: <OnChain group="onchain" />,
+		board: <Board group="marketplace" />,
+		medals: <Medals group="onchain" />,
 	};
 
 	/**

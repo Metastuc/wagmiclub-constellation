@@ -4,8 +4,8 @@ export type tabProps = {
 	onTabChange: (tab: string) => void;
 };
 export * from "./edit";
+export * from "./board";
 export * from "./create";
 export * from "./onchain";
 export * from "./explore";
 export * from "./reputation";
-export * from "./marketplace";

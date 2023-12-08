@@ -31,10 +31,15 @@ export const MarketPlace = ({
 			}
 
 			// Shuffling the users' data
-			const shuffled = allUsers.sort(() => Math.random() - 0.5);
+			const shuffled = [...allUsers].sort(() => Math.random() - 0.5);
+
+			// Sorting the shuffled users based on their medals
+			const sortedUsers = shuffled
+				.slice()
+				.sort((a, b) => b.medals - a.medals);
 
 			// Limiting the displayed users based on the given number
-			return shuffled.slice(0, numberToDisplay);
+			return sortedUsers.slice(0, numberToDisplay);
 		}
 
 		setUsers(displayUsers(REPUTATION_LEADERBOARD, items));

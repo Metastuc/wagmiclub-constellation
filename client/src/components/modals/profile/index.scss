@@ -61,7 +61,7 @@
         font: {
             family: map-get($map: $ff, $key: clash);
             weight: map-get($map: $fw, $key: mid);
-            size: .5rem;
+            size: .75rem;
         }
     }
 }

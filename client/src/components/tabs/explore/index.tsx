@@ -11,21 +11,26 @@ export const ExploreTabs: FC<tabProps> = ({
 		<section className={`${group}__tabs`}>
 			<div className={`${group}__tabs-wrapper`}>
 				<button
-					className={`${tabIsActive(
-						"marketplace",
-					)} ${group}__tabs-button`}
-					onClick={() => onTabChange("marketplace")}
+					className={`${tabIsActive("board")} ${group}__tabs-button`}
+					onClick={() => onTabChange("board")}
 				>
-					<span>Marketplace</span>
+					<span>Board</span>
+				</button>
+
+				<button
+					className={`${tabIsActive("medals")} ${group}__tabs-button`}
+					onClick={() => onTabChange("medals")}
+				>
+					<span>Medals</span>
 				</button>
 
 				<button
 					className={`${tabIsActive(
-						"onchainMedals",
+						"profiles",
 					)} ${group}__tabs-button`}
-					onClick={() => onTabChange("onchainMedals")}
+					onClick={() => onTabChange("profiles")}
 				>
-					<span>Onchain medals</span>
+					<span>Proflies</span>
 				</button>
 			</div>
 		</section>
