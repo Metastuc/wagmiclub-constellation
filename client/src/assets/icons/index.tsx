@@ -31,6 +31,23 @@ export const Hamburger = function () {
 			</svg>
 		);
 	},
+	Back = function () {
+		return (
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width={24}
+				height={24}
+				fill="none"
+			>
+				<path
+					stroke="#fff"
+					strokeLinecap="round"
+					strokeLinejoin="round"
+					d="M17.5 12H7M11.088 16 6.5 12l4.588-4"
+				/>
+			</svg>
+		);
+	},
 	CloseMenu = function () {
 		return (
 			<svg

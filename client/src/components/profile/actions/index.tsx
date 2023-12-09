@@ -1,4 +1,3 @@
-import Link from "next/link";
 import "./index.scss";
 
 export const Actions = ({ group }: { group: string }) => {
@@ -15,7 +14,6 @@ export const Actions = ({ group }: { group: string }) => {
 				</div>
 
 				<div className={`${group}__right`}>
-					<Link href={"/status"}>Status</Link>
 					<button>Follow</button>
 				</div>
 			</div>

@@ -1,3 +1,4 @@
+export * from "./medals";
 export * from "./quester";
 export * from "./club-tiles";
 export * from "./medal-type";

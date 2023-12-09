@@ -2,9 +2,8 @@
 
 import { useRouter } from "next/navigation";
 import { QUESTER_BADGE } from "@/assets/data";
-import { useState } from "react";
-import "./page.scss";
 import { Star } from "@/assets/icons";
+import "./page.scss";
 
 const Organizations = ({ params }: { params: { id: string } }) => {
 	const group = "organizations";
@@ -17,10 +16,6 @@ const Organizations = ({ params }: { params: { id: string } }) => {
 	};
 
 	const badgeDetails = QUESTER_BADGE.find((badge) => badge.id === details);
-
-	// const { info } = badgeDetails;
-
-	// console.log(info);
 
 	return (
 		<section className={group}>

@@ -1,13 +1,16 @@
 "use client";
 
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useScrollReset, useTabSwitcher } from "@/hooks";
 import { FormField as EditForms } from "@/views";
 import { EditTabs } from "@/components/";
-import { useEffect } from "react";
+import { Back } from "@/assets/icons";
 import "./page.scss";
 
 const Edit = () => {
 	useScrollReset();
+	const router = useRouter();
 
 	useEffect(() => {
 		const nav = document.querySelector("nav");
@@ -21,6 +24,16 @@ const Edit = () => {
 		<>
 			<section className="edit">
 				<div className="edit__title-bar">
+					<button
+						onClick={() => {
+							router.back();
+							const nav = document.querySelector("nav");
+							nav?.setAttribute("style", "display: block;");
+						}}
+						className="edit__back"
+					>
+						<Back />
+					</button>
 					<span>edit profile</span>
 					<span>
 						<img
