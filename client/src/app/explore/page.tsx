@@ -25,7 +25,7 @@ const Explore = () => {
 	useBodyOverflow();
 
 	// Get active tab, handleTabClick function, and tabIsActive function from custom hook
-	const { activeTab, handleTabClick, tabIsActive } = useTabSwitcher("medals");
+	const { activeTab, handleTabClick, tabIsActive } = useTabSwitcher("board");
 
 	// Object mapping tab names to corresponding components
 	const tabComponents: TabComponents = {

@@ -41,8 +41,6 @@ export const MedalDetails: FC<props> = ({
 	const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
 	const daysDiff = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-	console.log(daysDiff);
-
 	return (
 		<section className={group}>
 			<div className={`${group}__wrapper`}>
