@@ -6,5 +6,6 @@ export * from "./Dropdown";
 export * from "./TextField";
 export * from "./Reputation";
 export * from "./ImageUpload";
+export * from "./NumberField";
 export * from "./SelectField";
 export * from "./TextAreaField";

@@ -25,7 +25,6 @@ interface props {
 export const MedalDetails: FC<props> = ({
 	id,
 	title,
-	image,
 	description,
 	host,
 	hostImage,

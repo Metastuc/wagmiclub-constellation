@@ -1,18 +1,15 @@
 "use client";
 
-import {
-	ChangeEvent,
-	FC,
-	FocusEvent,
-	useEffect,
-} from "react";
+import { ChangeEvent, FC, FocusEvent, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.min.css";
 import "./index.scss";
 
 interface props {
 	group: string;
+	label: string;
 	working: boolean;
+	placeholder: string;
 	startDate: Date;
 	endDate: Date | null;
 	errors: Record<string, string>;
@@ -29,6 +26,7 @@ interface props {
 export const TimeStamp: FC<props> = ({
 	group,
 	working,
+	label,
 	startDate,
 	endDate,
 	handleBlur,
@@ -36,6 +34,7 @@ export const TimeStamp: FC<props> = ({
 	errors,
 	setFieldValue,
 	touched,
+	placeholder,
 }) => {
 	const today = new Date();
 
@@ -49,7 +48,7 @@ export const TimeStamp: FC<props> = ({
 				htmlFor="timestamp"
 				className={`${group}__timestamp-label`}
 			>
-				Time stamp
+				{label}
 			</label>
 			<div className={`${group}__timestamp-wrapper`}>
 				<article className={`${group}__timestamp-date`}>
@@ -104,7 +103,7 @@ export const TimeStamp: FC<props> = ({
 							endDate={working ? today : endDate}
 							dateFormat={"EEEE, MMMM d, yyyy"}
 							placeholderText={
-								working ? "Still working" : "Select a Date"
+								working ? placeholder : "Select a Date"
 							}
 							showYearDropdown
 							scrollableYearDropdown
@@ -113,7 +112,7 @@ export const TimeStamp: FC<props> = ({
 							readOnly={working}
 							value={
 								working
-									? "Still working"
+									? placeholder
 									: endDate
 									? endDate.toLocaleDateString(undefined, {
 											weekday: "long",
@@ -132,7 +131,7 @@ export const TimeStamp: FC<props> = ({
 						htmlFor="working"
 						className={`${group}__timestamp-working_label`}
 					>
-						Still working
+						{placeholder}
 					</label>
 
 					<input

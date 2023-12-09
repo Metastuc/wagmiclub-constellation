@@ -1,5 +1,11 @@
 import { FC, FocusEvent } from "react";
-import { SelectField, TextField, TextAreaField } from "@/components";
+import {
+	SelectField,
+	TextField,
+	TextAreaField,
+	NumberField,
+	TimeStamp,
+} from "@/components";
 import { MEDAL_TYPE, WINNING_METRICS } from "@/assets/data";
 import "./index.scss";
 
@@ -12,6 +18,7 @@ interface props {
 		metrics?: string;
 		validator?: string;
 		additionalInfo?: string;
+		medals?: string;
 	};
 	touched: {
 		title?: boolean;
@@ -20,12 +27,17 @@ interface props {
 		metrics?: boolean;
 		validator?: boolean;
 		additionalInfo?: boolean;
+		medals?: boolean;
 	};
 	formData: {
 		title: string;
 		address: string;
 		validator: string;
+		medals: string;
 		additionalInfo: string;
+		startDate: Date;
+		endDate: Date | null;
+		working: boolean;
 	};
 	handleBlur: (event: FocusEvent<any>) => void;
 	setFieldValue: (
@@ -45,7 +57,15 @@ const FormField: FC<props> = ({
 	setFieldValue,
 	handleFormChange,
 }) => {
-	const { title, address, validator, additionalInfo } = formData;
+	const {
+		title,
+		address,
+		medals,
+		additionalInfo,
+		startDate,
+		endDate,
+		working,
+	} = formData;
 
 	return (
 		<>
@@ -102,17 +122,33 @@ const FormField: FC<props> = ({
 				touched={touched.metrics}
 			/>
 
-			{/* Validator's Name & Position Field */}
-			<TextField
-				id="validator"
+			{/* Prompts the user to enter the number of medals they want to create */}
+			<NumberField
+				id="medals"
 				group={group}
-				label="Medal Validator's Name & Position in Organisation"
-				value={validator}
-				touched={touched.validator}
+				label="How many medals do you want to create"
+				value={medals}
+				touched={touched.medals}
 				onBlur={handleBlur}
-				error={errors.validator}
-				edit={false}
-				onChange={handleFormChange}
+				error={errors.medals}
+				edit={true}
+				placeholder="maximum of 75"
+				setFieldValue={setFieldValue}
+			/>
+
+			{/* Timestamp component for start and end dates */}
+			<TimeStamp
+				group={group}
+				startDate={startDate}
+				endDate={endDate}
+				working={working}
+				handleBlur={handleBlur}
+				handleFormChange={handleFormChange}
+				errors={errors}
+				touched={touched}
+				label="Medal minting duration"
+				placeholder="Endless minting"
+				setFieldValue={setFieldValue}
 			/>
 
 			{/* Additional Information Textarea */}

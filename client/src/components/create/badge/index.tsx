@@ -97,6 +97,7 @@ const FormField: FC<props> = ({
 			{/* Timestamp component for start and end dates */}
 			<TimeStamp
 				group={group}
+				label="Timestamp"
 				startDate={startDate}
 				endDate={endDate}
 				working={working}
@@ -104,6 +105,7 @@ const FormField: FC<props> = ({
 				handleFormChange={handleFormChange}
 				errors={errors}
 				touched={touched}
+				placeholder="Still working"
 				setFieldValue={setFieldValue}
 			/>
 

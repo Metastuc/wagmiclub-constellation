@@ -10,9 +10,13 @@ export const Medal = ({ group }: { group: string }) => {
 		type: "",
 		address: "",
 		metrics: "",
+		medals: "0",
 		validator: "",
 		deployChain: "Lukso",
 		additionalInfo: "",
+		endDate: null,
+		startDate: new Date(),
+		working: false,
 	};
 
 	const {
@@ -49,7 +53,7 @@ export const Medal = ({ group }: { group: string }) => {
 					setFieldValue={setFieldValue}
 					error={errors.deployChain}
 					touched={touched.deployChain}
-					selectedValue="Lukso"
+					selectedValue="Polygon Mumbai"
 				/>
 
 				{/* File Upload component */}
