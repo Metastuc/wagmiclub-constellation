@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { MEDAL_SCHEMA, DEPLOYMENT_CHAINS } from "@/assets/data";
 import { ImageUpload, MedalForm, SelectField } from "@/components";
+import { createMedal } from "@/utils/app.mjs";
 import "./index.scss";
 
 export const Medal = ({ group }: { group: string }) => {
@@ -30,9 +31,15 @@ export const Medal = ({ group }: { group: string }) => {
 	} = useFormik({
 		validationSchema: MEDAL_SCHEMA,
 		initialValues,
-		onSubmit: (values) => {
+		onSubmit: async(values) => {
 			console.log("Formik data:", values);
 			// Handle form submission logic here (e.g., API call)
+			try {
+				await createMedal(values);
+			} catch (error) {
+				console.log(error);
+				
+			}
 		},
 	});
 
@@ -82,7 +89,7 @@ export const Medal = ({ group }: { group: string }) => {
 						className={`${group}__submit-button`}
 						type="submit"
 					>
-						<span>mint badge</span>
+						<span>Create Medal</span>
 					</button>
 				</div>
 			</form>

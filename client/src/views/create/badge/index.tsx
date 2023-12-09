@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 import { BadgeForm, ImageUpload, Rating } from "@/components";
 import { BADGE_SCHEMA } from "@/assets/data";
+import { mintBadge } from "@/utils/app.mjs";
 import "./index.scss";
 
 export const Badge = ({ group }: { group: string }) => {
@@ -28,9 +29,14 @@ export const Badge = ({ group }: { group: string }) => {
 	} = useFormik({
 		validationSchema: BADGE_SCHEMA,
 		initialValues,
-		onSubmit: (values) => {
+		onSubmit: async(values) => {
 			console.log("Formik data:", values);
 			// Handle form submission logic here (e.g., API call)
+			try {
+				await mintBadge(values);
+			} catch (error) {
+				console.log(error);
+			}
 		},
 	});
 

@@ -20,4 +20,11 @@ export const WINNING_METRICS = [
 			utility: "Up to 5 weeks",
 		},
 	},
+	{
+		id: 3,
+		value: {
+			title: "Over 5 NFTs",
+			utility: "Over 5 NFTs",
+		},
+	},
 ];
