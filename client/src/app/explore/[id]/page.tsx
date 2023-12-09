@@ -52,10 +52,20 @@ export const MedalDetails: FC<props> = ({
 				<div className={`${group}__description`}>
 					<div className={`${group}__row`}>
 						<span>
-							<i></i>
+							<i
+								style={{
+									backgroundColor: claimed
+										? "#e5f77a"
+										: "#64FFA2",
+								}}
+							></i>
 						</span>
 						<span className={`${group}__ends`}>
-							Ends in {daysDiff} {daysDiff === 1 ? "day" : "days"}
+							{claimed
+								? "Ended"
+								: `Ends in ${daysDiff} ${
+										daysDiff === 1 ? "day" : "days"
+								  }`}
 						</span>
 						<span>
 							{remaining}/{total}
@@ -80,7 +90,7 @@ export const MedalDetails: FC<props> = ({
 					</div>
 
 					<div className={`${group}__row`}>
-						<span>Participants</span>
+						<span>{claimed ? "Minted by" : "Participants"}</span>
 						<div>
 							{participants.map((participant, index) => (
 								<span

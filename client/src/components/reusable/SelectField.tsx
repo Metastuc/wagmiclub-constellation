@@ -36,7 +36,6 @@ export const SelectField: FC<props> = ({
 	const handleDropdownChange = (event: ChangeEvent<HTMLSelectElement>) => {
 		const selectedOption = event.toString();
 		setSelected(selectedOption);
-		console.log({ selectedOption }, { selected });
 		setFieldValue(id, selectedOption);
 		onChange(selectedOption);
 	};

@@ -135,7 +135,8 @@
             /**
              * Styles for the checked state of the input element and the associated toggle.
              */
-            &:checked~.badge__timestamp-working_toggle {
+            &:checked~.badge__timestamp-working_toggle,
+            &:checked~.medal__timestamp-working_toggle {
                 background-color: rgba($color: #cbcc95, $alpha: .52);
 
                 /**

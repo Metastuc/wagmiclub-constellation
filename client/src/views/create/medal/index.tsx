@@ -31,14 +31,13 @@ export const Medal = ({ group }: { group: string }) => {
 	} = useFormik({
 		validationSchema: MEDAL_SCHEMA,
 		initialValues,
-		onSubmit: async(values) => {
+		onSubmit: async (values) => {
 			console.log("Formik data:", values);
 			// Handle form submission logic here (e.g., API call)
 			try {
 				await createMedal(values);
 			} catch (error) {
 				console.log(error);
-				
 			}
 		},
 	});

@@ -37,7 +37,7 @@ export const MEDALS = [
 			},
 			quantity: {
 				total: 5,
-				remaining: 0,
+				remaining: 5,
 			},
 			participants: ["starfish.jpg", "Goosymana.jpg", "ice-cream.jpg"],
 			claimed: true,

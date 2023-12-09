@@ -14,16 +14,6 @@ export const Menu = () => {
 	const { status: menuActive, toggleStatus } = useToggle();
 	const router = useRouter();
 
-	// Define the function to be triggered for the login action
-	const handleLogin = async (id: number) => {
-		// Execute login logic
-		try {
-			id === 3 &&
-				router.push((await logIn()) ? "/profile" : "/profile/edit");
-		} catch (error) {
-			console.warn(error);
-		}
-	};
 	useEffect(() => {
 		// Toggle background vertical scroll when menu is active
 		const scroll = menuActive ? "hidden" : "visible";
@@ -33,9 +23,15 @@ export const Menu = () => {
 	/**
 	 * Handle menu item click event.
 	 */
-	async function handleMenuItem() {
-		if (menuActive) {
-			toggleStatus();
+	async function handleMenuItem(id: number) {
+		menuActive && toggleStatus();
+
+		// function to be triggered for the login action
+		try {
+			id === 3 &&
+				router.push((await logIn()) ? "/profile" : "/profile/edit");
+		} catch (error) {
+			console.warn(error);
 		}
 	}
 
@@ -70,7 +66,9 @@ export const Menu = () => {
 										return (
 											<li
 												key={id}
-												onClick={() => handleLogin(id)}
+												onClick={() => {
+													handleMenuItem(id);
+												}}
 											>
 												<Link href={to}>{title}</Link>
 											</li>
