@@ -99,7 +99,7 @@ const FormField: FC<props> = ({
 			<TextField
 				id="address"
 				group={group}
-				label="Contract Address"
+				label="Contract Address/NFT Name"
 				value={address}
 				touched={touched.address}
 				onBlur={handleBlur}
