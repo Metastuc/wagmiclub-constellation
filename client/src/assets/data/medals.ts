@@ -6,7 +6,7 @@ export const MEDALS = [
 			host: "Lukso",
 			metrics: "Top NFT Collector",
 			hostImage: "luksoIcon.png",
-            medalImage:"satan.jpg",
+			medalImage: "satan.jpg",
 			description: `Lukso art contest just kicked off, this medal is to recognize top nft collectors
                             during this contest! make sure to collect as much as you can to stand a chance`,
 			time: {
@@ -17,7 +17,7 @@ export const MEDALS = [
 				total: 5,
 				remaining: 1,
 			},
-			participants: [],
+			participants: ["Yashmatic.jpg", "Frencansto.jpg", "boarbeast.jpg"],
 			claimed: false,
 		},
 	},

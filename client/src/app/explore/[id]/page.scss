@@ -3,11 +3,11 @@
 .medal-details {
     padding: .5rem;
     border-radius: 1.5rem;
-    border: 1px solid red;
+    background-color: var(--black-300);
 
     &__wrapper {
         border-radius: inherit;
-        border: 1px solid yellow;
+        border: 1px solid lighten($color: #000000, $amount: 15);
         overflow: hidden;
     }
 
@@ -15,7 +15,7 @@
         height: 17.25rem;
         width: 100%;
         overflow: hidden;
-        border-bottom: 1px solid yellow;
+        border-bottom: 1px solid lighten($color: #000000, $amount: 15);
     }
 
     &__description {
@@ -32,21 +32,46 @@
         &:nth-of-type(4),
         &:nth-of-type(5) {
             @include flex($j: space-between);
-            border: 4px solid green;
             width: 100%;
         }
 
         &:nth-of-type(1) {
+            color: #FFFFFFD9;
+            justify-content: flex-start;
+
             font: {
                 family: map-get($map: $ff, $key: clash);
                 size: .75rem;
                 weight: map-get($map: $fw, $key: reg);
+            }
+
+            span {
+                @include flex;
+                align-items: flex-start;
+
+                &:nth-of-type(1) {
+                    min-height: 100%;
+                    height: .75rem;
+                    padding-top: .0625rem;
+
+                    i {
+                        @include equal(.5rem);
+                        background-color: #64FFA2;
+                        border-radius: 50%;
+                    }
+                }
+
+                &:nth-of-type(2) {
+                    margin-right: auto;
+                    margin-left: .25rem;
+                }
             }
         }
 
         &:nth-of-type(3) {
             align-items: flex-start;
             gap: .5rem;
+            margin-bottom: 1rem;
 
             h3 {
                 font: {
@@ -68,14 +93,18 @@
         &:nth-of-type(4) {
             span {
                 &:nth-of-type(1) {
+                    color: #FFFFFF9E;
+
                     font: {
                         family: map-get($map: $ff, $key: clash);
-                        size: .75rem;
+                        size: calc(.75rem - 0.125rem);
                         weight: map-get($map: $fw, $key: reg);
                     }
                 }
 
                 &:nth-of-type(2) {
+                    color: #FFFFFFD9;
+
                     font: {
                         family: map-get($map: $ff, $key: clash);
                         size: .75rem;
@@ -85,9 +114,61 @@
             }
         }
 
+        &:nth-of-type(5) {
+            >span {
+                color: #FFFFFF9E;
+
+                font: {
+                    family: map-get($map: $ff, $key: clash);
+                    size: calc(.75rem - 0.125rem);
+                    weight: map-get($map: $fw, $key: reg);
+                }
+            }
+
+            >div {
+                @include flex;
+                position: relative;
+                height: 1.75rem;
+                width: 40%;
+
+                span {
+                    @include equal(1.75rem);
+                    overflow: hidden;
+                    border-radius: 50%;
+                    position: absolute;
+
+                    &:nth-of-type(1) {
+                        right: 3rem;
+                    }
+
+                    &:nth-of-type(2) {
+                        right: 1.5rem;
+                    }
+
+                    &:nth-of-type(3) {
+                        right: 0;
+                    }
+                }
+            }
+        }
+
         &:nth-of-type(6) {
-            border: 4px solid purple;
             width: 100%;
+            margin-top: 3.75rem;
+
+            button {
+                height: 2.25rem;
+                width: 13rem;
+                border-radius: .75rem;
+                background-color: #EBEBEB;
+                color: black;
+
+                font: {
+                    family: map-get($map: $ff, $key: clash);
+                    size: .75rem;
+                    weight: map-get($map: $fw, $key: mid);
+                }
+            }
         }
     }
 
@@ -99,13 +180,19 @@
             &:nth-of-type(1) {
                 @include equal(2.5rem);
                 @include flex;
+                border-radius: 50%;
+                overflow: hidden;
+
+                img {
+                    @include equal(100%);
+                }
             }
 
             &:nth-of-type(2) {
                 font: {
                     family: map-get($map: $ff, $key: clash);
                     size: 1rem;
-                    weight: map-get($map: $fw, $key: mid);
+                    weight: map-get($map: $fw, $key: reg);
                 }
             }
         }

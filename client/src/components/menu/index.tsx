@@ -10,7 +10,6 @@ import "./index.scss";
 import { logIn } from "@/utils/app.mjs";
 import { useRouter } from "next/navigation";
 
-
 export const Menu = () => {
 	const { status: menuActive, toggleStatus } = useToggle();
 	const router = useRouter();
@@ -18,8 +17,13 @@ export const Menu = () => {
 	// Define the function to be triggered for the login action
 	const handleLogin = async (id: number) => {
 		// Execute login logic
-
-  } ;
+		try {
+			id === 3 &&
+				router.push((await logIn()) ? "/profile" : "/profile/edit");
+		} catch (error) {
+			console.warn(error);
+		}
+	};
 	useEffect(() => {
 		// Toggle background vertical scroll when menu is active
 		const scroll = menuActive ? "hidden" : "visible";
@@ -66,20 +70,7 @@ export const Menu = () => {
 										return (
 											<li
 												key={id}
-												onClick={async () => {
-													try {
-														if (id === 3) {
-															const loggedIn = await logIn();
-															if (loggedIn) {
-																router.push('/profile');
-																} else if(!loggedIn) {
-																router.push('/profile/edit');
-															}
-														}
-													} catch (error) {
-														
-													}
-												}}
+												onClick={() => handleLogin(id)}
 											>
 												<Link href={to}>{title}</Link>
 											</li>

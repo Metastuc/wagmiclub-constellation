@@ -1,6 +1,5 @@
 import { ORGANIZATION_MEDALS, MEDALS } from "@/assets/data";
 import { MedalDetails } from "@/app/explore/[id]/page";
-import { useTabSwitcher } from "@/hooks";
 import { Badge } from "@/components";
 import "./index.scss";
 
@@ -26,8 +25,6 @@ export const RenderOrgMedals = function ({ group }: { group: string }) {
 	);
 };
 export const OnChain = ({ group }: { group: string }) => {
-	const { activeTab, handleTabClick, tabIsActive } = useTabSwitcher("active");
-
 	return (
 		<section className={`${group}`}>
 			<div className={`${group}__wrapper`}>

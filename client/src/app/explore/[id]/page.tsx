@@ -36,9 +36,12 @@ export const MedalDetails: FC<props> = ({
 	time: { start, end },
 	quantity: { total, remaining },
 }) => {
-	// const styleClass = `${group}`;
-
 	const group = "medal-details";
+	const [startDate, endDate] = [new Date(start), new Date(end)];
+	const diffTime = Math.abs(endDate.getTime() - startDate.getTime());
+	const daysDiff = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+	console.log(daysDiff);
 
 	return (
 		<section className={group}>
@@ -51,7 +54,12 @@ export const MedalDetails: FC<props> = ({
 				</div>
 				<div className={`${group}__description`}>
 					<div className={`${group}__row`}>
-						<span className={`${group}__ends`}>Ends in x days</span>
+						<span>
+							<i></i>
+						</span>
+						<span className={`${group}__ends`}>
+							Ends in {daysDiff} {daysDiff === 1 ? "day" : "days"}
+						</span>
 						<span>
 							{remaining}/{total}
 						</span>
@@ -77,12 +85,15 @@ export const MedalDetails: FC<props> = ({
 					<div className={`${group}__row`}>
 						<span>Participants</span>
 						<div>
-							{participants.map((participant) => (
+							{participants.map((participant, index) => (
 								<span
-									key={participant}
+									key={index}
 									className={`${group}__participant`}
 								>
-									{participant}
+									<img
+										src={participant}
+										alt=""
+									/>
 								</span>
 							))}
 						</div>
