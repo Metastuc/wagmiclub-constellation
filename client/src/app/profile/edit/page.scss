@@ -13,12 +13,19 @@
     padding-inline: 1.5rem;
     /** Horizontal padding for the .edit component. */
 
+    &__back {
+        @include flex;
+        background-color: transparent;
+    }
+
+
     /**
      * Styles for the title bar within the .edit component.
      */
     &__title-bar {
         @include flex($j: space-between);
         /** Apply flexbox with space-between alignment. */
+        gap: 1rem;
 
         >span {
             text-transform: capitalize;
@@ -38,6 +45,7 @@
                 @include equal(2rem);
                 border-radius: 50%;
                 overflow: hidden;
+                margin-left: auto;
             }
         }
     }

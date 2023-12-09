@@ -14,10 +14,10 @@ export const QUESTER_BADGE = [
 					of recognition for his excellence in building
 					software solutions, expertise in crafting 
 					blockchain solutions, operational excellence
-					and understanding trends within the company. `,
+					and understanding trends within the company.`,
 			time: {
-				start: "2022-01-01",
-				end: "2022-01-01",
+				start: "Sat Dec 02 2023 00:00:00 GMT+0100 (West Africa Standard Time)",
+				end: "Sat Dec 03 2023 00:00:00 GMT+0100 (West Africa Standard Time)",
 			},
 			validator: "sumn",
 			rating: 5,
@@ -38,7 +38,7 @@ export const QUESTER_BADGE = [
 					of recognition for his excellence in building
 					software solutions, expertise in crafting 
 					blockchain solutions, operational excellence
-					and understanding trends within the company. `,
+					and understanding trends within the company.`,
 			time: {
 				start: "2022-01-01",
 				end: "2022-01-01",

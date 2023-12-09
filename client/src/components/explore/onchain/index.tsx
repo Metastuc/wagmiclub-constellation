@@ -1,6 +1,7 @@
-import { ORGANIZATION_MEDALS } from "@/assets/data";
+import { ORGANIZATION_MEDALS, MEDALS } from "@/assets/data";
+import { MedalDetails } from "@/app/explore/[id]/page";
 import { useTabSwitcher } from "@/hooks";
-import { Badge, OnchainTabs } from "@/components";
+import { Badge } from "@/components";
 import "./index.scss";
 
 export const RenderOrgMedals = function ({ group }: { group: string }) {
@@ -15,8 +16,8 @@ export const RenderOrgMedals = function ({ group }: { group: string }) {
 						className={`${group}__medal`}
 					>
 						<Badge
-							{...value}
 							group={`${group}__medal`}
+							{...value}
 						/>
 					</div>
 				);
@@ -30,16 +31,23 @@ export const OnChain = ({ group }: { group: string }) => {
 	return (
 		<section className={`${group}`}>
 			<div className={`${group}__wrapper`}>
-				<>
-					{/* Tab switcher component for switching between personal, details, and socials tabs */}
-					<OnchainTabs
-						group={group}
-						onTabChange={handleTabClick}
-						tabIsActive={tabIsActive}
-					/>
-				</>
+				<div className={`${group}__medals`}>
+					{MEDALS.map((item: any, index: number) => {
+						const { id, value } = item;
 
-				<RenderOrgMedals group={group} />
+						return (
+							<div
+								key={index | id}
+								className={`${group}__medal-detail`}
+							>
+								<MedalDetails
+									group={`${group}__medal-detail`}
+									{...value}
+								/>
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		</section>
 	);
