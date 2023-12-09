@@ -34,18 +34,17 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
     // JavaScript source code
     // Fetch fetch eligible address to mint medal to.
     string source =
-        "const contractAddress = args[0];"
-        "const tokenId = args[1];"
-        "const apiResponse = await Functions.makeHttpRequest({"
-        "url: `https://wagmi-backend.up.railway.app/getEligible/${tokenId}`"
-        "});"
-        "if (apiResponse.error) {"
-        "throw Error('Request failed');"
-        "}"
-        "const { data } = apiResponse;"
-        // "return Functions.encodeString(data.index);"
-        // returns bytes then should convert the bytes to uint256
-        "return Functions.encodeBytes(Buffer.from(response, 'utf-8'));";
+            "const tokenId = args[0];"
+            "const apiResponse = await Functions.makeHttpRequest({"
+            "url: `https://wagmi-backend.up.railway.app/getEligible/${tokenId}`"
+            "});"
+            "if (apiResponse.error) {"
+            "throw Error('Request failed');"
+            "}"
+            "const { data } = apiResponse;"
+            "const response = data.index;"
+            "console.log(response);"
+            "return Functions.encodeUint256(response);";
 
     //Callback gas limit
     uint32 gasLimit = 300000;
@@ -68,7 +67,7 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
      */
     function sendRequest(
         uint64 subscriptionId,
-        string[2] memory args
+        string[1] memory args
     ) external onlyOwner returns (bytes32 requestId) {
         FunctionsRequest.Request memory req;
         req.initializeRequestForInlineJavaScript(source); // Initialize the request with JS code
@@ -85,7 +84,7 @@ contract requestBuilder is FunctionsClient, ConfirmedOwner {
         return s_lastRequestId;
     }
 
-    function getRequest(string[2] calldata args) external returns(bytes memory) {
+    function getRequest(string[1] calldata args) external returns(bytes memory) {
         FunctionsRequest.Request memory req;
         req.initializeRequestForInlineJavaScript(source); // Initialize the request with JS code
         if (args.length > 0) req.setArgs(args); // Set the arguments for the request

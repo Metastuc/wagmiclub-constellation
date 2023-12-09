@@ -14,7 +14,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
     using Counters for Counters.Counter; // OpenZepplin Counter
     Counters.Counter private _medalCount; // Counter for badges minted
 
-    string public returnedString;
+    address public returnedAddress;
     uint256 public lastBlockNumber;
     bytes public request;
     uint256 public deadline;
@@ -44,7 +44,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
 
     constructor(address router, string memory uri_, address builderAddress) ERC1155(uri_) FunctionsClient(router) ConfirmedOwner(msg.sender) {
         blockInterval = 5;
-        subscriptionId = 1069;
+        subscriptionId = 1115;
         gasLimit = 300000;
         donID = 0x66756e2d706f6c79676f6e2d6d756d6261692d31000000000000000000000000;
         requestBuilder = IRequestBuilder(builderAddress);
@@ -71,7 +71,7 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
         address contractAddress = address(this);
         string memory addressString = addressToString(contractAddress);
         string memory _tokenId = Strings.toString(tokenId);
-        string[2] memory args = [addressString, _tokenId];
+        string[1] memory args = [_tokenId];
         request = requestBuilder.getRequest(args);
         _medalCount.increment();
     }
@@ -90,6 +90,14 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
             }
         }
         return result;
+    }
+
+    function bytesToUint256(bytes memory data) public pure returns (uint256 result) {
+        require(data.length <= 32, "Data exceeds 32 bytes");
+
+        assembly {
+            result := mload(add(data, 0x20)) // Load the first 32 bytes of data into uint256
+        }
     }
 
    /**
@@ -175,9 +183,9 @@ contract Medals is ERC1155, FunctionsClient, AutomationCompatibleInterface, Conf
         }
         s_lastResponse = response;
 
-        returnedString = string(response);
-        uint256 id = stringToUint(returnedString);
+        uint256 id = bytesToUint256(response);
         address user = questers[tokenId][id];
+        returnedAddress = user;
         // mint the tokenId
         _mint(user, tokenId, 1, response);
         s_lastError = err;
