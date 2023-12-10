@@ -32,10 +32,10 @@
 
 -   ### **Solidity smart contracts**
 
-    Conserve makes use of two smart contracts see [2 contracts](https://github.com/Metastuc/wagmiclub-constellation/tree/main/smart-contracts)
+    The contracts can be found [here](https://github.com/Metastuc/wagmiclub-constellation/tree/main/smart-contracts)
 
     -   **Badges** This is an ERC1155 for issuing badges to users, each badge is represented by a new tokenId.
-    -   **Badges** This contracts imports the FunctionsRequest
+    -   **RequestBuilder** This contracts imports the FunctionsRequest contract to construct the functions request that will be used by the Medals contract to get the request that will be used to call the external API.
     -   **Medals** This is the main contract that utilizes chainlink functions and automation to mint a medal NFT represented by an tokenId. The contract gets off-chain data i.e the address to mint the medal NFT to from the backend and this
     process is automated with chainlink automation to run cron jobs on the contract. 
     <!-- -   <b style="color: orange">The two contracts communicate with each other through multichain-anycall protocol and are deployed on three different chains</b> -->
@@ -54,21 +54,15 @@
 
 -   ### **Backend**
 
-    -   <b style="color: orange">The multichain-anycall protocol is phenominal</b>, we used it to perform crosschain functions like call our withdraw function on our three contracts deployed on three different chains(BINANCE, FTM) see [code here](https://github.com/Godhanded/crosschain_insure/blob/main/contracts/insure.sol#L78) and [here](https://github.com/Godhanded/crosschain_insure/blob/main/contracts/calledContracts/cinsure.sol#L62)
-
+    -   <b style="color: orange">Node.js was the framework used for the backend</b>, we used the backend to call the Moralis API and to feed in the eligible addresses for medals to be minted.The backend was also used to handle storage of user information along with the firestore database. Public endpoints can be accessed [here](wagmi-backend.up.railway.app).
+ 
+-   ### **Chainlink**
+  -   **Automation**: Our project utilized Chainlink automation to run cron jobs for every 5 blocks on the Mumbai testnet to check the eligibility of medal participants. The medals contract was registered on the Chainlink upkeep Dapp and custom upkeep was used. It was used in the smart contract [here] ()
+  -  **Functions**: Chainlink functions was used to retrive the eligible participants to a medal by calling the getEligible/${tokenId} endpoint. which returns a unit256 value which is the index of the address of the eligible participant in the array containing participants.
+    
 -   ### **Moralis**
 
-    -   The Moralis vanilla js SDK was used in this project for all smart contract calls, see [one of the functions](https://github.com/Godhanded/crosschain_insure/blob/main/frontend/js/script.js)
+    -   The Moralis API was used to fetch certain user onchain metrics like number of NFTs an account has and how much tokens an address has been transferred to an account example usage can be found[here]() and example API [here]()
 
-    -   Moralis was also used to connect and communicate with A web3 provider like Metamask. see [handleAuth function](https://github.com/Godhanded/crosschain_insure/blob/main/frontend/js/script.js#L25)
-
--   ### **Binance Testnet**
-
-    -   The contract on this chain was used as <b style="color: orange">the Home or main </b>through which calls to two other chains can be made, The contract was deployed and verified, see [Contract here](https://testnet.bscscan.com/address/0xeFf5D7c9ea237a0Ad814AB5FF07eE9805B837F13#code)
-
--   ### **Fantom Testnet**
-
-    -   <b style="color: orange">A crosschain enabled</b> smart contract was deployed and Verified on the FTM Test net
-        see [Contract here](https://testnet.ftmscan.com/address/0x1d94b4efe2310157dcd84a1f8a95cc8e6cea29a9#code)
-
-    -   insurance is payed by calling the payInsurance function on the contract
+-   ### **Mumbai testnet**
+    - All the contracts were deployed on mumbai.
