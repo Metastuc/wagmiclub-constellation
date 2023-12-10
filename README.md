@@ -32,13 +32,27 @@
 
 -   ### **Solidity smart contracts**
 
-    Conserve makes use of two smart contracts see [2 contracts](hhttps://github.com/Godhanded/crosschain_insure/tree/main/contracts)
+    Conserve makes use of two smart contracts see [2 contracts](https://github.com/Metastuc/wagmiclub-constellation/tree/main/smart-contracts)
 
-    -   **DefiInsure** The main or home contract through which calls to other chains are made possible
-    -   **CDefiInsure** the same contract but with an execute function which is called by another contract from a different chain to peform an internal contract call
-    -   <b style="color: orange">The two contracts communicate with each other through multichain-anycall protocol and are deployed on three different chains</b>
+    -   **Badges** This is an ERC1155 for issuing badges to users, each badge is represented by a new tokenId.
+    -   **Badges** This contracts imports the FunctionsRequest
+    -   **Medals** This is the main contract that utilizes chainlink functions and automation to mint a medal NFT represented by an tokenId. The contract gets off-chain data i.e the address to mint the medal NFT to from the backend and this
+    process is automated with chainlink automation to run cron jobs on the contract. 
+    <!-- -   <b style="color: orange">The two contracts communicate with each other through multichain-anycall protocol and are deployed on three different chains</b> -->
+    -   **How to run** clone the repo, enter the smart contracts folder and download the npm packages by running:
+    ```bash
+    npm install
+    # or
+    yarn add
+    ```
+    configure the hardhat.config file(default set to mumbai) then deploy to any chain of choice of using the commands
+    ```bash
+    npx hardhat run --network <your-network> scripts/deployRequestBuilder.js
+    npx hardhat run --network <your-network> scripts/deployMedals.js
+    npx hardhat run --network <your-network> scripts/deployBadges.js
+    ```
 
--   ### **Multichain Anycall**
+-   ### **Backend**
 
     -   <b style="color: orange">The multichain-anycall protocol is phenominal</b>, we used it to perform crosschain functions like call our withdraw function on our three contracts deployed on three different chains(BINANCE, FTM) see [code here](https://github.com/Godhanded/crosschain_insure/blob/main/contracts/insure.sol#L78) and [here](https://github.com/Godhanded/crosschain_insure/blob/main/contracts/calledContracts/cinsure.sol#L62)
 
