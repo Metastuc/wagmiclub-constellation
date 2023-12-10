@@ -1,6 +1,7 @@
 import { ethers } from 'ethers';
 var provider;
 var signer;
+var userProfile;
 
 const baseAPIURL = "https://wagmi-backend.up.railway.app/";
 
@@ -137,6 +138,7 @@ export const logIn = async () => {
 			console.log('true');
 			return true;
 		} else {
+			await getProfile();
 			console.log('false');
 			return false;
 		}
@@ -187,7 +189,7 @@ export const signIn = async () => {
     }
 
     const data = await response.json();
-	return data
+	return data;
 
 };
 
@@ -315,6 +317,7 @@ export const createMedal = async (createBody) => {
 		body.alphaType = createBody.type;
 		body.title = createBody.title;
 		body.validator = createBody.validator;
+		body.minters = [];
 
 		body.requirement = getNumber(createBody.metrics);
 
@@ -387,4 +390,36 @@ export const particpate = async (id) => {
 	} catch (error) {
 		console.log(error);
 	}
+}
+
+export const getProfile = async() => {
+	await connectWallet();
+	const address = await getUserAddress();
+
+	try {
+		const endPoint = `getUserProfileAddress/${address}`;
+
+		const getProfileEndpoint = baseAPIURL + endPoint;
+
+		const response = await fetch(getProfileEndpoint, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (!response.ok) {
+			throw new Error('Server Error');
+		}
+
+		const data = await response.json();
+		console.log(data);
+		return data;
+	} catch (error) {
+		console.log(error);
+	}
+}
+
+export const returnProfile = () => {
+	return {userProfile}
 }

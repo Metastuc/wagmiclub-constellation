@@ -3,24 +3,16 @@ import { QUESTER_BADGE } from "@/assets/data";
 import { Badge, Verified } from "@/assets/icons";
 import "./index.scss";
 
-const Badges = ({ group }: { group: string }) => {
+const Badges = ({ userBadge }) => {
+	const group = "profile";
 	return (
 		<section className={`${group}`}>
 			<div className={`${group}__wrapper`}>
 				<h4>Badges</h4>
-
-				<div>
-					{QUESTER_BADGE.slice(0, 4).map((item, index) => {
-						const {
-							id,
-							value: { image, name, verified },
-						} = item;
-
-						return (
 							<Link
 								// href={`/organizations/${id}`}
 								href={``}
-								key={id || index}
+								key={userBadge.id }
 								className={`${group}__badge`}
 							>
 								<i>
@@ -28,24 +20,22 @@ const Badges = ({ group }: { group: string }) => {
 								</i>
 
 								<img
-									key={id || index}
-									src={image}
-									alt={name}
+									key={userBadge.id}
+									src={userBadge.image}
+									alt={userBadge.name}
 								/>
 
 								<span>
-									{name}
-									{verified && (
+									{userBadge.name}
+									{userBadge.verified && (
 										<i>
 											<Verified />
 										</i>
 									)}
 								</span>
 							</Link>
-						);
-					})}
+					
 				</div>
-			</div>
 		</section>
 	);
 };

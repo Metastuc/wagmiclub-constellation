@@ -1,13 +1,13 @@
 import { Verified, Badge, Location, Creator } from "@/assets/icons";
 import "./index.scss";
 
-export const Bio = ({ group }: { group: string }) => {
+export const Bio = ({ group, userBio }: { group: string, userBio: any }) => {
 	return (
 		<section className={`${group}`}>
 			<div className={`${group}__wrapper`}>
 				<div className={`${group}__top`}>
 					<h1>
-						<span>Jehee</span>
+						<span>{userBio.name}</span>
 						<i>
 							<Badge />
 						</i>
@@ -16,14 +16,12 @@ export const Bio = ({ group }: { group: string }) => {
 						</i>
 					</h1>
 
-					<p>@defiprince_</p>
+					<p>{userBio.username}</p>
 				</div>
 
 				<div className={`${group}__center`}>
 					<p className={`${group}__center-text`}>
-						web3 products & contents -building{" "}
-						<span>@wagmiclub</span> <br />
-						contributor to the creator economy
+					{userBio.bio}
 					</p>
 					<div className={`${group}__center-buttons`}>
 						<div className={`${group}__center-buttons-left`}>
@@ -57,18 +55,18 @@ export const Bio = ({ group }: { group: string }) => {
 							<i>
 								<Creator />
 							</i>
-							<p>Creator</p>
+							<p>{userBio.profession}</p>
 						</div>
 					</div>
 				</div>
 
 				<div className={`${group}__bottom`}>
 					<div>
-						<b>450</b>
+						<b>{userBio.following}</b>
 						<span>following</span>
 					</div>
 					<div>
-						<b>1065</b>
+						<b>{userBio.followers}</b>
 						<span>followers</span>
 					</div>
 				</div>
