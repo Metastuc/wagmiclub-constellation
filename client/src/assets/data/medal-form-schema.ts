@@ -51,5 +51,5 @@ export const MEDAL_SCHEMA = Yup.object().shape({
 	 * AdditionalInfo field validation.
 	 * Optional field.
 	 */
-	additionalInfo: Yup.string(),
+	additionalInfo: Yup.string().required("Medal description is required"),
 });

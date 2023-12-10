@@ -18,7 +18,8 @@ const Badges = ({ group }: { group: string }) => {
 
 						return (
 							<Link
-								href={`/organizations/${id}`}
+								// href={`/organizations/${id}`}
+								href={``}
 								key={id || index}
 								className={`${group}__badge`}
 							>

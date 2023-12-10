@@ -155,7 +155,7 @@ const FormField: FC<props> = ({
 			<TextAreaField
 				id="additionalInfo"
 				group={group}
-				label="Additional Information"
+				label="Medal Description"
 				value={additionalInfo}
 				touched={touched.additionalInfo}
 				onBlur={handleBlur}

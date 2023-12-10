@@ -1,4 +1,10 @@
-import { Actions, Bio, ProfileBadges } from "@/components";
+import {
+	Actions,
+	Bio,
+	ProfileBadges,
+	ProfileMedals,
+	TrustScores,
+} from "@/components";
 import "./page.scss";
 
 const Profile = () => {
@@ -12,6 +18,10 @@ const Profile = () => {
 				<Bio group={`${group}__bio`} />
 
 				<ProfileBadges group={`${group}__badges`} />
+
+				<TrustScores group={`${group}__trustscores`} />
+
+				<ProfileMedals group={`${group}__medals`} />
 			</section>
 		</section>
 	);
