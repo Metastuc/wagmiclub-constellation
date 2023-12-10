@@ -6,18 +6,11 @@
 -   [Problem Statement](#problem-statement)
 -   [Solution](#solution)
 -   [Technologies Used](#technologies-used)
-    -   [Moralis](#moralis)
-    -   [Multichain Anycall](#multichain-anycall)
-    -   [Binance](#binance-testnet)
     -   [Smart Contract](#solidity-smart-contracts)
-    -   [Fantom](#fantom-testnet)
--   [Important Live Links](#importantlive-hosted-project-links)
--   [Team Members](#contributors)
--   [Project Features](#project-features)
--   [Why Conserv](#why-conserv)
--   [Features We Couldn't Complete](#features-we-couldnt-complete)
--   [Future Project Plans](#future-project-plans)
-
+    -   [Backend](#backend)
+    -   [Chainlink](#Chainlink)
+    -   [Moralis](#moralis)
+    -   [Mumbai](#Mumbai-testnet)
 #
 
 > ## Technologies Used
@@ -64,5 +57,5 @@
 
     -   The Moralis API was used to fetch certain user onchain metrics like number of NFTs an account has and how much tokens an address has been transferred to an account example usage can be found[here]() and example API [here]()
 
--   ### **Mumbai testnet**
+-   ### **Mumbai-testnet**
     - All the contracts were deployed on mumbai.
