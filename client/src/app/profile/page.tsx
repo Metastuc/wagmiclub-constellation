@@ -25,7 +25,6 @@ const Profile = () => {
 		try {
 			const _userProfile = await getProfile();
 			setBio(_userProfile.bio);
-			const _badges = 
 			setBadges(_userProfile.badegs);
 			setMedals(_userProfile.medals);
 			console.log(_userProfile);

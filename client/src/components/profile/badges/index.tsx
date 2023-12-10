@@ -3,7 +3,7 @@ import { QUESTER_BADGE } from "@/assets/data";
 import { Badge, Verified } from "@/assets/icons";
 import "./index.scss";
 
-const Badges = ({ userBadge }) => {
+const Badges = ({ userBadge }: { userBadge: any } ) => {
 	const group = "profile";
 	return (
 		<section className={`${group}`}>
@@ -21,13 +21,13 @@ const Badges = ({ userBadge }) => {
 
 								<img
 									key={userBadge.id}
-									src={userBadge.image}
-									alt={userBadge.name}
+									src={userBadge.value.image}
+									alt={userBadge.value.name}
 								/>
 
 								<span>
-									{userBadge.name}
-									{userBadge.verified && (
+									{userBadge.value.name}
+									{userBadge.value.verified && (
 										<i>
 											<Verified />
 										</i>
